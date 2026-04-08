@@ -1,4 +1,13 @@
 ---
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/500.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+
 interface Props {
   title: string;
   description?: string;
@@ -10,7 +19,6 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/images/og-julio-prieto-lab.jpg', Astro.site);
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -20,7 +28,6 @@ const structuredData = {
   "description": description,
   "url": canonicalURL.href,
   "logo": new URL('/favicon.svg', Astro.site).href,
-  "image": ogImage.href,
   "telephone": "+573216950086",
   "address": {
     "@type": "PostalAddress",
@@ -123,6 +130,61 @@ const structuredData = {
   ]
 };
 
+const faqData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué es una carilla cerámica y cuánto dura?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Una carilla cerámica es una lámina ultrafina de porcelana (0.3 a 0.7mm) que se adhiere a la cara frontal del diente para mejorar su color, forma y apariencia. Trabajamos con disilicato de litio (E-Max) y porcelana feldespática. Con el cuidado adecuado, duran entre 10 y 15 años."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué materiales utilizan para coronas dentales?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Trabajamos con zirconio monolítico (máxima resistencia), zirconio multicapa (resistencia + estética), disilicato de litio E-Max (ideal para zona anterior) y metal porcelana. La elección depende de la ubicación del diente y los requerimientos estéticos de cada caso."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué es el diseño digital de sonrisa?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Es un proceso de planificación digital que utiliza software especializado y tecnología CAD/CAM para diseñar la sonrisa ideal del paciente antes de iniciar el tratamiento. Permite visualizar el resultado final, hacer ajustes y fabricar piezas con máxima precisión."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Trabajan con odontólogos de toda Colombia?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, trabajamos con odontólogos en Cali y toda Colombia. Coordinamos envío de trabajos y mantenemos comunicación constante durante todo el proceso por WhatsApp para garantizar resultados óptimos en cada caso."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cómo puedo solicitar una cotización?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contáctanos directamente por WhatsApp al 321 695 0086. Envíanos los detalles del caso (fotos, tipo de trabajo, material deseado) y te proporcionamos una cotización personalizada con tiempos de entrega."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Cuál es el tiempo de entrega de los trabajos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "El tiempo varía según el tipo de trabajo: carillas cerámicas y coronas entre 5 a 7 días hábiles, prótesis sobre implantes entre 7 a 10 días, y diseños digitales de sonrisa entre 3 a 5 días. Siempre nos comprometemos con la fecha acordada."
+      }
+    }
+  ]
+};
+
 const breadcrumbData = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -144,10 +206,6 @@ const breadcrumbData = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!-- Primary SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -168,10 +226,6 @@ const breadcrumbData = {
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage.href} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Julio Prieto - Laboratorio de Estética Dental en Cali, Colombia" />
     <meta property="og:locale" content="es_CO" />
     <meta property="og:site_name" content="Julio Prieto Lab Dental" />
 
@@ -179,7 +233,6 @@ const breadcrumbData = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage.href} />
     <meta name="twitter:image:alt" content="Julio Prieto - Laboratorio de Estética Dental en Cali, Colombia" />
 
     <!-- Theme & Icons -->
@@ -191,22 +244,17 @@ const breadcrumbData = {
     <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <!-- Fonts: non-render-blocking with swap -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    </noscript>
-
     <!-- Structured Data: LocalBusiness -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <!-- Structured Data: BreadcrumbList -->
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
+
+    <!-- LLM discovery -->
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM information" />
 
     <!-- Generator -->
     <meta name="generator" content={Astro.generator} />

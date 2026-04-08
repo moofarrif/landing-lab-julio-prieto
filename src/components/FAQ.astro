@@ -1,0 +1,146 @@
+---
+const faqs = [
+  {
+    question: '¿Qué es una carilla cerámica y cuánto dura?',
+    answer: 'Una carilla cerámica es una lámina ultrafina de porcelana (0.3 a 0.7mm) que se adhiere a la cara frontal del diente para mejorar su color, forma y apariencia. Trabajamos con disilicato de litio (E-Max) y porcelana feldespática. Con el cuidado adecuado, duran entre 10 y 15 años.',
+  },
+  {
+    question: '¿Qué materiales utilizan para coronas dentales?',
+    answer: 'Trabajamos con zirconio monolítico (máxima resistencia), zirconio multicapa (resistencia + estética), disilicato de litio E-Max (ideal para zona anterior) y metal porcelana. La elección depende de la ubicación del diente y los requerimientos estéticos de cada caso.',
+  },
+  {
+    question: '¿Qué es el diseño digital de sonrisa?',
+    answer: 'Es un proceso de planificación digital que utiliza software especializado y tecnología CAD/CAM para diseñar la sonrisa ideal del paciente antes de iniciar el tratamiento. Permite visualizar el resultado final, hacer ajustes y fabricar piezas con máxima precisión.',
+  },
+  {
+    question: '¿Trabajan con odontólogos de toda Colombia?',
+    answer: 'Sí, trabajamos con odontólogos en Cali y toda Colombia. Coordinamos envío de trabajos y mantenemos comunicación constante durante todo el proceso por WhatsApp para garantizar resultados óptimos en cada caso.',
+  },
+  {
+    question: '¿Cómo puedo solicitar una cotización?',
+    answer: 'Contáctanos directamente por WhatsApp al 321 695 0086. Envíanos los detalles del caso (fotos, tipo de trabajo, material deseado) y te proporcionamos una cotización personalizada con tiempos de entrega.',
+  },
+  {
+    question: '¿Cuál es el tiempo de entrega de los trabajos?',
+    answer: 'El tiempo varía según el tipo de trabajo: carillas cerámicas y coronas entre 5 a 7 días hábiles, prótesis sobre implantes entre 7 a 10 días, y diseños digitales de sonrisa entre 3 a 5 días. Siempre nos comprometemos con la fecha acordada.',
+  },
+];
+---
+
+<section class="faq section" id="preguntas" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="faq-header animate-on-scroll">
+      <span class="section-label">Preguntas Frecuentes</span>
+      <div class="gold-line" aria-hidden="true"></div>
+      <h2 class="section-title" id="faq-title">
+        Resolvemos tus <span class="gold-text">dudas</span>
+      </h2>
+      <p class="section-subtitle">
+        Todo lo que necesitas saber sobre nuestros servicios de estética dental en Cali.
+      </p>
+    </div>
+
+    <div class="faq-list">
+      {faqs.map((faq, i) => (
+        <details class="faq-item animate-on-scroll" style={`transition-delay: ${i * 0.08}s`}>
+          <summary class="faq-question">
+            <span>{faq.question}</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </summary>
+          <div class="faq-answer">
+            <p>{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    background: var(--color-bg);
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .faq-header .section-subtitle {
+    margin: 0 auto;
+  }
+
+  .faq-header .gold-line {
+    margin: 0 auto 2rem;
+  }
+
+  .faq-list {
+    max-width: 750px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    background: var(--color-bg-card);
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .faq-item:hover,
+  .faq-item[open] {
+    border-color: rgba(201,169,110,0.2);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-white);
+    transition: color 0.3s ease;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::marker {
+    display: none;
+    content: '';
+  }
+
+  .faq-question:hover {
+    color: var(--color-gold);
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--color-gold);
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.25rem;
+  }
+
+  .faq-answer p {
+    font-size: 0.9rem;
+    color: var(--color-gray-300);
+    line-height: 1.8;
+  }
+</style>
