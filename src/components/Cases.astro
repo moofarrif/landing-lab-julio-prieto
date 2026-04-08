@@ -1,0 +1,159 @@
+---
+const cases = [
+  { title: 'Carillas E-Max', category: 'Estética Dental', desc: 'Set de 10 carillas en disilicato de litio con caracterización natural' },
+  { title: 'Coronas en Zirconio', category: 'Restauración Dental', desc: 'Coronas anteriores con máxima translucidez y ajuste perfecto' },
+  { title: 'Diseño Digital de Sonrisa', category: 'Planificación Digital', desc: 'Mock-up digital y encerado diagnóstico para visualización previa' },
+  { title: 'Prótesis sobre Implantes', category: 'Implantología', desc: 'Rehabilitación completa sobre implantes con estética superior' },
+  { title: 'Puente Anterior Cerámico', category: 'Restauración Dental', desc: 'Puente de 3 unidades en zona estética con zirconio multicapa' },
+  { title: 'Carillas en Composite', category: 'Estética Dental', desc: 'Carillas directas con caracterización y acabado natural' },
+];
+---
+
+<section class="cases section" id="casos" aria-labelledby="cases-title">
+  <div class="container">
+    <div class="cases-header animate-on-scroll">
+      <div class="cases-title-group">
+        <span class="section-label">Portafolio de Trabajos</span>
+        <div class="gold-line" aria-hidden="true"></div>
+        <h2 class="section-title" id="cases-title">
+          Casos <span class="gold-text">destacados</span>
+        </h2>
+      </div>
+      <a href="https://www.instagram.com/md.julioprieto/reels/" target="_blank" rel="noopener noreferrer" class="btn btn-outline cases-btn" aria-label="Ver más casos en Instagram de Julio Prieto">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        Ver más en Instagram
+      </a>
+    </div>
+
+    <div class="cases-grid" role="list">
+      {cases.map((item, i) => (
+        <article class="case-card animate-on-scroll" style={`transition-delay: ${i * 0.1}s`} role="listitem">
+          <div class="case-image">
+            <div class="case-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 21"/>
+              </svg>
+            </div>
+            <div class="case-overlay">
+              <span class="case-category">{item.category}</span>
+            </div>
+          </div>
+          <div class="case-info">
+            <h3 class="case-title">{item.title}</h3>
+            <p class="case-desc">{item.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cases {
+    background: var(--color-bg-alt);
+  }
+
+  .cases-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .case-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.4s ease, border-color 0.4s ease;
+  }
+
+  .case-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201, 169, 110, 0.2);
+  }
+
+  .case-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .case-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-500);
+  }
+
+  .case-overlay {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .case-category {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .case-info {
+    padding: 1.25rem;
+  }
+
+  .case-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-white);
+    margin-bottom: 0.35rem;
+  }
+
+  .case-desc {
+    font-size: 0.85rem;
+    color: var(--color-gray-400);
+  }
+
+  @media (max-width: 1024px) {
+    .cases-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cases-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .cases-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

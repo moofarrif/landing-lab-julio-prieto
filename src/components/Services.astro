@@ -1,0 +1,198 @@
+---
+const services = [
+  {
+    number: '01',
+    title: 'Carillas Cerámicas',
+    description: 'Láminas ultrafinas de porcelana feldespática y disilicato de litio (E-Max) diseñadas para transformar tu sonrisa con un acabado natural y duradero.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>`,
+    slug: 'carillas-ceramicas',
+  },
+  {
+    number: '02',
+    title: 'Coronas y Puentes',
+    description: 'Restauraciones fijas en zirconio monolítico, disilicato de litio y metal porcelana con ajuste perfecto y alta estética.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 4l3 12h14l3-12"/><path d="M3 16l2.5 4h13L21 16"/><circle cx="6.5" cy="9" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="17.5" cy="9" r="1"/></svg>`,
+    slug: 'coronas-y-puentes',
+  },
+  {
+    number: '03',
+    title: 'Prótesis sobre Implantes',
+    description: 'Soluciones protésicas sobre implantes con máxima precisión en ajuste, estética superior y biocompatibilidad garantizada.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M12 8v4"/><rect x="6" y="12" width="12" height="8" rx="2"/><path d="M10 16h4"/></svg>`,
+    slug: 'protesis-sobre-implantes',
+  },
+  {
+    number: '04',
+    title: 'Diseño Digital de Sonrisa',
+    description: 'Planificación digital avanzada con software especializado para visualizar el resultado final antes de iniciar el tratamiento.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 10l3 3 4-4 3 3"/></svg>`,
+    slug: 'diseno-digital-sonrisa',
+  },
+  {
+    number: '05',
+    title: 'Prótesis Removibles',
+    description: 'Prótesis parciales y totales con la más alta estética, adaptación personalizada y materiales de última generación.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12a8 8 0 0116 0"/><path d="M8 12v4c0 1.1.9 2 2 2h4a2 2 0 002-2v-4"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>`,
+    slug: 'protesis-removibles',
+  },
+  {
+    number: '06',
+    title: 'Ortodoncia y Retenedores',
+    description: 'Aparatos ortodónticos y retenedores de alta precisión fabricados con tecnología de punta para tratamientos efectivos.',
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 12h18"/><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>`,
+    slug: 'ortodoncia-retenedores',
+  },
+];
+---
+
+<section class="services section" id="servicios" aria-labelledby="services-title">
+  <div class="container">
+    <div class="services-header animate-on-scroll">
+      <span class="section-label">Nuestros Servicios</span>
+      <div class="gold-line" aria-hidden="true"></div>
+      <h2 class="section-title" id="services-title">
+        Soluciones dentales de <span class="gold-text">alta estética</span>
+      </h2>
+      <p class="section-subtitle">
+        Ofrecemos servicios completos de mecánica dental estética en Cali: desde carillas cerámicas
+        hasta prótesis sobre implantes con los más altos estándares de calidad.
+      </p>
+    </div>
+
+    <div class="services-grid" role="list">
+      {services.map((service, i) => (
+        <article class="service-card animate-on-scroll" style={`transition-delay: ${i * 0.1}s`} role="listitem">
+          <div class="service-number" aria-hidden="true">{service.number}</div>
+          <div class="service-icon" set:html={service.icon} />
+          <h3 class="service-title">{service.title}</h3>
+          <p class="service-desc">{service.description}</p>
+          <a
+            href={`https://wa.me/573216950086?text=${encodeURIComponent(`Hola, me interesa el servicio de ${service.title}. Me gustaría recibir más información y cotización.`)}`}
+            class="service-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Cotizar ${service.title} por WhatsApp`}
+          >
+            Cotizar
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    position: relative;
+  }
+
+  .services-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .services-header .section-subtitle {
+    margin: 0 auto;
+  }
+
+  .services-header .gold-line {
+    margin: 0 auto 2rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--color-bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease, transform 0.4s ease;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .service-card:hover {
+    border-color: rgba(201, 169, 110, 0.2);
+    transform: translateY(-4px);
+  }
+
+  .service-card:hover::before {
+    opacity: 1;
+  }
+
+  .service-number {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(201, 169, 110, 0.08);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    line-height: 1;
+  }
+
+  .service-icon {
+    color: var(--color-gold);
+    margin-bottom: 1.25rem;
+  }
+
+  .service-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-white);
+    margin-bottom: 0.75rem;
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    color: var(--color-gray-400);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-gold);
+    transition: gap 0.3s ease;
+  }
+
+  .service-link:hover {
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

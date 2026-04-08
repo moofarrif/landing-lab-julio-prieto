@@ -1,0 +1,273 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Laboratorio de mecánica dental especializado en estética dental en Cali, Colombia. Carillas cerámicas, coronas en zirconio, prótesis sobre implantes y diseño digital de sonrisa. +10 años de experiencia."
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/images/og-julio-prieto-lab.jpg', Astro.site);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "DentalLaboratory",
+  "name": "Julio Prieto - Laboratorio de Mecánica Dental",
+  "alternateName": "JP Lab Dental",
+  "description": description,
+  "url": canonicalURL.href,
+  "logo": new URL('/favicon.svg', Astro.site).href,
+  "image": ogImage.href,
+  "telephone": "+573216950086",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Cali",
+    "addressRegion": "Valle del Cauca",
+    "addressCountry": "CO"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "3.4516",
+    "longitude": "-76.5320"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Cali"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Julio Prieto",
+    "jobTitle": "Mecánico Dental",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Universidad Santiago de Cali"
+    },
+    "sameAs": [
+      "https://www.instagram.com/md.julioprieto/"
+    ]
+  },
+  "sameAs": [
+    "https://www.instagram.com/md.julioprieto/"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Servicios de Mecánica Dental Estética",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Carillas Cerámicas",
+          "description": "Láminas ultrafinas de porcelana para transformar sonrisas con acabado natural y duradero"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Coronas y Puentes",
+          "description": "Restauraciones fijas en zirconio, disilicato de litio y metal porcelana"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Prótesis sobre Implantes",
+          "description": "Soluciones protésicas sobre implantes con máxima precisión y estética"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Diseño Digital de Sonrisa",
+          "description": "Planificación digital avanzada para visualizar resultados antes del tratamiento"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Prótesis Removibles",
+          "description": "Prótesis parciales y totales con alta estética y adaptación personalizada"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Ortodoncia y Retenedores",
+          "description": "Aparatos ortodónticos y retenedores de alta precisión"
+        }
+      }
+    ]
+  },
+  "priceRange": "$$",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "13:00"
+    }
+  ]
+};
+
+const breadcrumbData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": canonicalURL.href
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="laboratorio dental Cali, estética dental Cali, mecánica dental Colombia, carillas cerámicas Cali, coronas zirconio, prótesis sobre implantes, diseño digital sonrisa, Julio Prieto, laboratorio dental Colombia, carillas porcelana, coronas dentales, puentes dentales, prótesis dentales Cali" />
+    <meta name="author" content="Julio Prieto" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Geo targeting -->
+    <meta name="geo.region" content="CO-VAC" />
+    <meta name="geo.placename" content="Cali" />
+    <meta name="geo.position" content="3.4516;-76.5320" />
+    <meta name="ICBM" content="3.4516, -76.5320" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Julio Prieto - Laboratorio de Estética Dental en Cali, Colombia" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Julio Prieto Lab Dental" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+    <meta name="twitter:image:alt" content="Julio Prieto - Laboratorio de Estética Dental en Cali, Colombia" />
+
+    <!-- Theme & Icons -->
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="msapplication-TileColor" content="#0a0a0a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Fonts: non-render-blocking with swap -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <!-- Structured Data: LocalBusiness -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    <!-- Structured Data: BreadcrumbList -->
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+
+    <!-- Generator -->
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+    <slot />
+    <script>
+      // Intersection Observer for scroll animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const href = this.getAttribute('href');
+          if (!href) return;
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          const nav = document.querySelector('.nav-links');
+          if (nav?.classList.contains('active')) {
+            nav.classList.remove('active');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+
+  /* Skip link for accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: var(--color-gold);
+    color: var(--color-bg);
+    padding: 0.75rem 1.5rem;
+    z-index: 10000;
+    font-weight: 600;
+    border-radius: 0 0 8px 0;
+    transition: top 0.3s ease;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+</style>

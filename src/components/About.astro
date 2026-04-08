@@ -1,0 +1,255 @@
+---
+---
+
+<section class="about section" id="nosotros" aria-labelledby="about-title">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-col animate-on-scroll">
+        <div class="about-image-wrapper">
+          <div class="image-placeholder">
+            <div class="placeholder-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <p>Foto de Julio Prieto</p>
+            </div>
+          </div>
+          <div class="image-accent" aria-hidden="true"></div>
+        </div>
+        <div class="about-badge">
+          <span class="badge-icon" aria-hidden="true">🎓</span>
+          <div>
+            <span class="badge-title">Universidad Santiago de Cali</span>
+            <span class="badge-sub">Mecánica Dental</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-content-col">
+        <div class="animate-on-scroll">
+          <span class="section-label">Sobre Nosotros</span>
+          <div class="gold-line" aria-hidden="true"></div>
+          <h2 class="section-title" id="about-title">
+            Pasión por la <span class="gold-text">perfección</span> en estética dental
+          </h2>
+        </div>
+
+        <div class="animate-on-scroll">
+          <p class="about-text">
+            Soy <strong>Julio Prieto</strong>, mecánico dental egresado de la Universidad Santiago de Cali
+            con más de una década de experiencia especializado en estética dental. Mi laboratorio en Cali
+            combina el arte de la mecánica dental tradicional con tecnología CAD/CAM de vanguardia
+            para entregar resultados excepcionales en cada caso.
+          </p>
+          <p class="about-text">
+            Cada sonrisa es única y merece atención al detalle. Trabajo de la mano con odontólogos
+            en Cali y toda Colombia para garantizar que cada carilla, corona y prótesis dental
+            sea una obra de precisión, funcionalidad y belleza natural.
+          </p>
+        </div>
+
+        <div class="about-values animate-on-scroll">
+          <div class="value-item">
+            <div class="value-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="value-title">Calidad Premium</h3>
+              <p class="value-desc">Materiales de primera línea como zirconio, disilicato de litio y porcelana feldespática</p>
+            </div>
+          </div>
+
+          <div class="value-item">
+            <div class="value-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="value-title">Puntualidad</h3>
+              <p class="value-desc">Compromiso con los tiempos de entrega acordados con cada profesional</p>
+            </div>
+          </div>
+
+          <div class="value-item">
+            <div class="value-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="2">
+                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="value-title">Innovación</h3>
+              <p class="value-desc">Tecnología CAD/CAM y diseño digital de sonrisa para resultados predecibles</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--color-bg-alt);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201, 169, 110, 0.03) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-image-wrapper {
+    position: relative;
+  }
+
+  .image-placeholder {
+    aspect-ratio: 3/4;
+    background: var(--color-bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .placeholder-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-gray-500);
+  }
+
+  .placeholder-icon p {
+    font-size: 0.85rem;
+    color: var(--color-gray-400);
+  }
+
+  .image-accent {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    border-radius: 16px;
+    z-index: -1;
+  }
+
+  .about-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--color-bg-card);
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    position: absolute;
+    bottom: -1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .badge-icon {
+    font-size: 1.5rem;
+  }
+
+  .badge-title {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .badge-sub {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-gray-400);
+  }
+
+  .about-text {
+    font-size: 1rem;
+    color: var(--color-gray-300);
+    line-height: 1.9;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-text strong {
+    color: var(--color-white);
+  }
+
+  .about-values {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    transition: background 0.3s ease;
+  }
+
+  .value-item:hover {
+    background: rgba(201, 169, 110, 0.05);
+  }
+
+  .value-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201, 169, 110, 0.1);
+    border-radius: 12px;
+  }
+
+  .value-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-white);
+    margin-bottom: 0.25rem;
+  }
+
+  .value-desc {
+    font-size: 0.85rem;
+    color: var(--color-gray-400);
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .about-image-col {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+  }
+</style>

@@ -1,0 +1,670 @@
+---
+---
+
+<section class="hero" id="inicio" aria-label="Inicio - Laboratorio dental Julio Prieto">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge animate-on-scroll">
+        <span class="badge-dot" aria-hidden="true"></span>
+        Laboratorio de Mecánica Dental en Cali
+      </div>
+
+      <h1 class="hero-title animate-on-scroll">
+        Creamos sonrisas<br />
+        con <span class="gold-text">precisión</span> y<br />
+        <span class="gold-text">arte</span>
+      </h1>
+
+      <p class="hero-description animate-on-scroll">
+        Laboratorio especializado en estética dental. Carillas cerámicas, coronas en zirconio,
+        diseño digital de sonrisa y prótesis sobre implantes con la más alta tecnología en Cali, Colombia.
+      </p>
+
+      <div class="hero-actions animate-on-scroll">
+        <a href="https://wa.me/573216950086?text=Hola%2C%20me%20gustar%C3%ADa%20cotizar%20un%20trabajo%20dental" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Solicitar cotización por WhatsApp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Solicitar Cotización
+        </a>
+        <a href="#servicios" class="btn btn-outline">
+          Ver Servicios
+        </a>
+      </div>
+
+      <div class="hero-stats animate-on-scroll" role="list" aria-label="Estadísticas del laboratorio">
+        <div class="stat" role="listitem">
+          <span class="stat-number gold-text">10+</span>
+          <span class="stat-label">Años de Experiencia</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat" role="listitem">
+          <span class="stat-number gold-text">2.5K+</span>
+          <span class="stat-label">Casos Realizados</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat" role="listitem">
+          <span class="stat-number gold-text">100%</span>
+          <span class="stat-label">Compromiso</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div class="hero-3d" aria-hidden="true">
+      <canvas id="tooth3d"></canvas>
+      <div class="canvas-loader" id="canvasLoader">
+        <div class="loader-spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<script>
+  async function initVeneer3D() {
+    const canvas = document.getElementById('tooth3d') as HTMLCanvasElement;
+    const loader = document.getElementById('canvasLoader');
+    if (!canvas) return;
+
+    const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js');
+
+    // ---- RENDERER ----
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+
+    const scene = new THREE.Scene();
+
+    // ---- CAMERA ----
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    camera.position.set(0, 0, 5.5);
+    camera.lookAt(0, 0, 0);
+
+    // ---- LIGHTS ----
+    // Key light: warm from top-right
+    const keyLight = new THREE.DirectionalLight(0xfff8ee, 3);
+    keyLight.position.set(3, 4, 5);
+    scene.add(keyLight);
+
+    // Fill: soft gold from left
+    const fillLight = new THREE.DirectionalLight(0xc9a96e, 0.8);
+    fillLight.position.set(-4, 1, 3);
+    scene.add(fillLight);
+
+    // Rim: edge highlight from behind
+    const rimLight = new THREE.DirectionalLight(0xe2c992, 1.5);
+    rimLight.position.set(0, 0, -4);
+    scene.add(rimLight);
+
+    // Ambient
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+
+    // Bottom accent
+    const bottomLight = new THREE.PointLight(0xc9a96e, 1.5, 8);
+    bottomLight.position.set(0, -3, 2);
+    scene.add(bottomLight);
+
+    // ---- PROCEDURAL ENV MAP ----
+    const pmremGen = new THREE.PMREMGenerator(renderer);
+    const envScene = new THREE.Scene();
+    envScene.add(new THREE.Mesh(
+      new THREE.SphereGeometry(5, 32, 32),
+      new THREE.MeshBasicMaterial({ color: 0x101018, side: THREE.BackSide })
+    ));
+    // Hot spots for reflections
+    const s1 = new THREE.PointLight(0xffffff, 15, 10);
+    s1.position.set(3, 3, 3);
+    envScene.add(s1);
+    const s2 = new THREE.PointLight(0xc9a96e, 10, 10);
+    s2.position.set(-3, 1, 2);
+    envScene.add(s2);
+    const s3 = new THREE.PointLight(0xfff5e0, 8, 10);
+    s3.position.set(0, -2, 4);
+    envScene.add(s3);
+    const envMap = pmremGen.fromScene(envScene, 0.04).texture;
+    pmremGen.dispose();
+
+    // ---- BUILD VENEER GEOMETRY ----
+    // A veneer is a thin curved shell shaped like the front of a tooth
+    // We create it as a parametric surface: u = horizontal, v = vertical
+    const segU = 40;
+    const segV = 50;
+    const thickness = 0.06;
+
+    function buildVeneerGeo(isBack: boolean) {
+      const positions: number[] = [];
+      const normals: number[] = [];
+      const uvs: number[] = [];
+      const indices: number[] = [];
+
+      for (let j = 0; j <= segV; j++) {
+        const v = j / segV; // 0=bottom (incisal), 1=top (gingival)
+        for (let i = 0; i <= segU; i++) {
+          const u = i / segU; // 0=left, 1=right
+
+          // --- Width varies along height ---
+          // Wider at incisal (bottom), narrower at gingival (top)
+          const widthBottom = 1.05;
+          const widthTop = 0.75;
+          const halfW = THREE.MathUtils.lerp(widthBottom, widthTop, v * v) * 0.5;
+
+          // x position
+          const x = THREE.MathUtils.lerp(-halfW, halfW, u);
+
+          // y position: height 1.5 units, centered
+          const y = THREE.MathUtils.lerp(-0.75, 0.75, v);
+
+          // --- Curvature ---
+          // Main curvature: convex front face (like a curved shield)
+          const uCenter = (u - 0.5) * 2; // -1 to 1
+          const horizCurve = 0.3 * (1 - uCenter * uCenter); // parabolic
+
+          // Vertical curve: slight bulge in middle
+          const vCenter = (v - 0.45) * 2;
+          const vertCurve = 0.08 * (1 - vCenter * vCenter);
+
+          // Incisal edge: slight forward roll
+          const incisalRoll = v < 0.1 ? 0.05 * Math.cos(v / 0.1 * Math.PI * 0.5) : 0;
+
+          let z = horizCurve + vertCurve + incisalRoll;
+
+          // Offset for back surface
+          if (isBack) z -= thickness;
+
+          // --- Rounded edges ---
+          // Soften corners: reduce z near edges
+          const edgeFadeU = Math.min(u, 1 - u) * 5; // 0 at edge, 1 at center
+          const edgeFadeV = Math.min(v, 1 - v) * 5;
+          const edgeFade = Math.min(Math.min(edgeFadeU, edgeFadeV), 1);
+          z *= edgeFade;
+
+          positions.push(x, y, z);
+
+          // Normal (approximate: will recompute)
+          const nz = isBack ? -1 : 1;
+          normals.push(0, 0, nz);
+
+          uvs.push(u, v);
+        }
+      }
+
+      // Indices
+      for (let j = 0; j < segV; j++) {
+        for (let i = 0; i < segU; i++) {
+          const a = j * (segU + 1) + i;
+          const b = a + 1;
+          const c = a + (segU + 1);
+          const d = c + 1;
+          if (isBack) {
+            indices.push(a, c, b, b, c, d);
+          } else {
+            indices.push(a, b, c, b, d, c);
+          }
+        }
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+      geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    // Edge strip: connects front and back surfaces at the perimeter
+    function buildEdgeGeo() {
+      const positions: number[] = [];
+      const indices: number[] = [];
+
+      // Collect perimeter vertices from front and back
+      // Bottom edge (v=0), right edge (u=1), top edge (v=1), left edge (u=0)
+      const perimeterParams: [number, number][] = [];
+
+      // Bottom: u from 0 to 1
+      for (let i = 0; i <= segU; i++) perimeterParams.push([i / segU, 0]);
+      // Right: v from 0 to 1
+      for (let j = 1; j <= segV; j++) perimeterParams.push([1, j / segV]);
+      // Top: u from 1 to 0
+      for (let i = segU - 1; i >= 0; i--) perimeterParams.push([i / segU, 1]);
+      // Left: v from 1 to 0
+      for (let j = segV - 1; j >= 1; j--) perimeterParams.push([0, j / segV]);
+
+      for (const [u, v] of perimeterParams) {
+        const widthBottom = 1.05;
+        const widthTop = 0.75;
+        const halfW = THREE.MathUtils.lerp(widthBottom, widthTop, v * v) * 0.5;
+        const x = THREE.MathUtils.lerp(-halfW, halfW, u);
+        const y = THREE.MathUtils.lerp(-0.75, 0.75, v);
+        const uCenter = (u - 0.5) * 2;
+        const horizCurve = 0.3 * (1 - uCenter * uCenter);
+        const vCenter = (v - 0.45) * 2;
+        const vertCurve = 0.08 * (1 - vCenter * vCenter);
+        const incisalRoll = v < 0.1 ? 0.05 * Math.cos(v / 0.1 * Math.PI * 0.5) : 0;
+        let z = horizCurve + vertCurve + incisalRoll;
+        const edgeFadeU = Math.min(u, 1 - u) * 5;
+        const edgeFadeV = Math.min(v, 1 - v) * 5;
+        const edgeFade = Math.min(Math.min(edgeFadeU, edgeFadeV), 1);
+        z *= edgeFade;
+
+        // Front vertex
+        positions.push(x, y, z);
+        // Back vertex
+        positions.push(x, y, z - thickness);
+      }
+
+      const count = perimeterParams.length;
+      for (let i = 0; i < count; i++) {
+        const next = (i + 1) % count;
+        const fi = i * 2;
+        const bi = i * 2 + 1;
+        const fn = next * 2;
+        const bn = next * 2 + 1;
+        indices.push(fi, fn, bi, bi, fn, bn);
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    // ---- MATERIAL: Dental ceramic ----
+    const ceramicMat = new THREE.MeshPhysicalMaterial({
+      color: 0xf8f4ee,
+      roughness: 0.12,
+      metalness: 0.0,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.05,
+      envMap,
+      envMapIntensity: 0.8,
+      sheen: 1.0,
+      sheenRoughness: 0.2,
+      sheenColor: new THREE.Color(0xf0e6d4),
+      transmission: 0.25,
+      thickness: 0.5,
+      ior: 1.5,
+      transparent: true,
+      opacity: 0.97,
+      side: THREE.FrontSide,
+    });
+
+    const backMat = new THREE.MeshPhysicalMaterial({
+      color: 0xe8dfd0,
+      roughness: 0.35,
+      metalness: 0.0,
+      clearcoat: 0.3,
+      clearcoatRoughness: 0.2,
+      envMap,
+      envMapIntensity: 0.3,
+      side: THREE.FrontSide,
+    });
+
+    const edgeMat = new THREE.MeshPhysicalMaterial({
+      color: 0xf0ebe0,
+      roughness: 0.15,
+      metalness: 0.0,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.1,
+      envMap,
+      envMapIntensity: 0.5,
+      side: THREE.DoubleSide,
+    });
+
+    // ---- ASSEMBLE VENEER ----
+    const veneerGroup = new THREE.Group();
+
+    const frontMesh = new THREE.Mesh(buildVeneerGeo(false), ceramicMat);
+    veneerGroup.add(frontMesh);
+
+    const backMesh = new THREE.Mesh(buildVeneerGeo(true), backMat);
+    veneerGroup.add(backMesh);
+
+    const edgeMesh = new THREE.Mesh(buildEdgeGeo(), edgeMat);
+    veneerGroup.add(edgeMesh);
+
+    veneerGroup.scale.set(1.8, 1.8, 1.8);
+    scene.add(veneerGroup);
+
+    // ---- GLOW RING ----
+    const ringGeo = new THREE.TorusGeometry(1.8, 0.005, 8, 120);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0xc9a96e,
+      transparent: true,
+      opacity: 0.2,
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI * 0.5;
+    scene.add(ring);
+
+    // Second ring tilted
+    const ring2 = ring.clone();
+    ring2.rotation.x = Math.PI * 0.4;
+    ring2.rotation.z = Math.PI * 0.15;
+    ring2.scale.set(1.15, 1.15, 1.15);
+    (ring2.material as THREE.MeshBasicMaterial).opacity = 0.1;
+    scene.add(ring2);
+
+    // ---- PARTICLES ----
+    const pCount = 40;
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(pCount * 3);
+    const pSizes = new Float32Array(pCount);
+    for (let i = 0; i < pCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const r = 1.2 + Math.random() * 1.5;
+      pPos[i * 3]     = Math.cos(angle) * r;
+      pPos[i * 3 + 1] = (Math.random() - 0.5) * 2.5;
+      pPos[i * 3 + 2] = Math.sin(angle) * r;
+      pSizes[i] = 0.02 + Math.random() * 0.03;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const pMat = new THREE.PointsMaterial({
+      color: 0xc9a96e,
+      size: 0.04,
+      transparent: true,
+      opacity: 0.45,
+      sizeAttenuation: true,
+    });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    // ---- SIZING ----
+    function resize() {
+      const parent = canvas.parentElement!;
+      const rect = parent.getBoundingClientRect();
+      const size = Math.min(rect.width, rect.height, 480);
+      renderer.setSize(size, size);
+      camera.aspect = 1;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Hide loader
+    if (loader) loader.style.display = 'none';
+
+    // ---- MOUSE INTERACTION ----
+    let mouseX = 0;
+    let mouseY = 0;
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    }, { passive: true });
+
+    canvas.addEventListener('mouseleave', () => {
+      mouseX = 0;
+      mouseY = 0;
+    }, { passive: true });
+
+    // ---- ANIMATE ----
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      // Base rotation + mouse influence
+      const targetRotY = t * 0.25 + mouseX * 0.5;
+      const targetRotX = Math.sin(t * 0.4) * 0.1 - mouseY * 0.3;
+
+      veneerGroup.rotation.y += (targetRotY - veneerGroup.rotation.y) * 0.05;
+      veneerGroup.rotation.x += (targetRotX - veneerGroup.rotation.x) * 0.05;
+
+      // Float
+      veneerGroup.position.y = Math.sin(t * 0.7) * 0.08;
+
+      // Rings
+      ring.rotation.z = t * 0.1;
+      ringMat.opacity = 0.15 + Math.sin(t * 0.8) * 0.08;
+      ring2.rotation.z = -t * 0.08;
+
+      // Particles
+      particles.rotation.y = t * 0.05;
+      const posArr = pGeo.attributes.position.array as Float32Array;
+      for (let i = 0; i < pCount; i++) {
+        posArr[i * 3 + 1] += Math.sin(t + i) * 0.001;
+      }
+      pGeo.attributes.position.needsUpdate = true;
+      pMat.opacity = 0.3 + Math.sin(t * 0.5) * 0.15;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  }
+
+  // Lazy load
+  const obs = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        initVeneer3D();
+        obs.disconnect();
+      }
+    },
+    { threshold: 0.1 }
+  );
+  const hero = document.getElementById('inicio');
+  if (hero) obs.observe(hero);
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 65% 50%, rgba(201,169,110,0.07) 0%, transparent 55%),
+      radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.05) 0%, transparent 60%),
+      linear-gradient(180deg, var(--color-bg) 0%, rgba(10,10,10,0.95) 100%);
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-content { position: relative; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--color-gold);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity:1; }
+    50% { opacity:0.4; }
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem,5vw,4.5rem);
+    font-weight: 600;
+    color: var(--color-white);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    color: var(--color-gray-300);
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease 0.6s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    animation: fadeInUp 0.8s ease 0.8s both;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--color-gray-400);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .stat-divider {
+    width: 1px; height: 40px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* 3D Canvas */
+  .hero-3d {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 400px;
+  }
+
+  #tooth3d {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1;
+    display: block;
+    cursor: grab;
+  }
+
+  #tooth3d:active { cursor: grabbing; }
+
+  .canvas-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loader-spinner {
+    width: 40px; height: 40px;
+    border: 2px solid rgba(201,169,110,0.2);
+    border-top-color: var(--color-gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--color-gold), transparent);
+    animation: scrollDown 2s ease infinite;
+  }
+
+  @keyframes scrollDown {
+    0%  { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform-origin: bottom; }
+    100%{ transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      padding-top: 7rem;
+    }
+    .hero-3d { order: -1; min-height: 320px; }
+    #tooth3d { max-width: 360px; }
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid { padding-top: 6rem; }
+    .hero-3d { min-height: 280px; }
+    #tooth3d { max-width: 280px; }
+
+    .hero-stats {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .stat-divider { width: 40px; height: 1px; }
+    .hero-actions { flex-direction: column; }
+    .hero-actions .btn { width: 100%; justify-content: center; }
+  }
+</style>
