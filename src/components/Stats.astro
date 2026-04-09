@@ -1,0 +1,139 @@
+---
+---
+
+<section class="stats-section" aria-label="Estadísticas del laboratorio">
+  <div class="container">
+    <div class="stats-grid" role="list">
+      <div class="stat" role="listitem">
+        <span class="stat-number gold-text" data-target="10" data-suffix="+">0</span>
+        <span class="stat-label">Años de Experiencia</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat" role="listitem">
+        <span class="stat-number gold-text" data-target="2500" data-suffix="+" data-format="k">0</span>
+        <span class="stat-label">Casos Realizados</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat" role="listitem">
+        <span class="stat-number gold-text" data-target="100" data-suffix="%">0</span>
+        <span class="stat-label">Compromiso</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function animateCounters() {
+    const numbers = document.querySelectorAll<HTMLElement>('.stat-number[data-target]');
+    let animated = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !animated) {
+          animated = true;
+          numbers.forEach((el) => {
+            const target = parseInt(el.dataset.target || '0', 10);
+            const suffix = el.dataset.suffix || '';
+            const format = el.dataset.format;
+            const duration = 2000;
+            const start = performance.now();
+
+            function update(now: number) {
+              const elapsed = now - start;
+              const progress = Math.min(elapsed / duration, 1);
+              // Ease out cubic
+              const eased = 1 - Math.pow(1 - progress, 3);
+              const current = Math.round(eased * target);
+
+              if (format === 'k' && current >= 1000) {
+                const k = (current / 1000).toFixed(current % 1000 < 100 ? 0 : 1);
+                el.textContent = `${k}K${suffix}`;
+              } else {
+                el.textContent = `${current}${suffix}`;
+              }
+
+              if (progress < 1) {
+                requestAnimationFrame(update);
+              }
+            }
+
+            requestAnimationFrame(update);
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const section = document.querySelector('.stats-section');
+    if (section) observer.observe(section);
+  }
+
+  animateCounters();
+</script>
+
+<style>
+  .stats-section {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.98) 0%,
+      var(--color-bg) 100%
+    );
+  }
+
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--color-gray-400);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .stats-section {
+      padding: 3rem 0;
+    }
+
+    .stats-grid {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .stat-divider {
+      width: 50px;
+      height: 1px;
+    }
+  }
+</style>
